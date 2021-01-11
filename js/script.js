@@ -1,41 +1,27 @@
-// Generatore numeri random univoci
-function uniqueNumbersGen (arr, count, min, max) {
-  while (arr.length < count) {
-    var randomNumber = Math.floor(Math.random() * (max + 1 - min) + min);
-    if (!arr.includes(randomNumber)) {
-      arr.push(randomNumber);
-    }
-  }
+// Generatore numero random
+function randomNumberGen(min, max) {
+  var randomNumberGenerated = Math.floor(Math.random() * (max + 1 - min) + min);
+  return randomNumberGenerated;
 }
 
-// Scelta numeri utente
-function userNumbersAndResult (arr, count, min, max, arr2) {
-  while (arr.length < max - count) {
-    var numberPick = parseInt(prompt('Scegli un numero compreso tra ' + min + ' e ' + max));
-    if (numberPick < min || numberPick > max) {
-      alert('Il numero inserito non è valido');
-    } else if (isNaN(numberPick)) {
-      alert('Non hai inserito un numero');
-    } else if (arr.includes(numberPick)) {
-      alert('Hai già inserito questo numero!');
-    } else {
-      arr.push(numberPick);
-    }
-    // Comparazione numeri utente con numeri random
-    if (arr2.indexOf(numberPick) > -1) {
-      alert('Ops! È esplosa una mina!');
-      loseResult.style.display = 'block';
-      break;
-    } else if (arr.length === max - count) {
-      winResult.style.display = 'block';
-    }
+// Comparazione numeri utente con numeri random
+function winning(arr, number, arr2) {
+  if (arr.indexOf(number) > -1) {
+    alert('Ops! È esplosa una mina!');
+    alert('Il tuo punteggio è di ' + (arr2.length - 1));
+    loseResult.style.display = 'block';
+    return false;
   }
-  alert('Il tuo punteggio è di ' + arr.length);
+  if (arr2.length === max - count) {
+    winResult.style.display = 'block';
+    alert('Il tuo punteggio è di ' + (arr2.length));
+  }
+    return true;
 }
-
 
 var randomNumbers = [];
 var pickedNumbers = [];
+var min, max, count, numberPick;
 var loseResult = document.getElementById('lose-result');
 var winResult = document.getElementById('win-result');
 
@@ -51,15 +37,40 @@ if (isNaN(difficulty)) {
 }
 switch (difficulty) {
   case 0:
-    uniqueNumbersGen (randomNumbers, 16, 1, 100);
-    userNumbersAndResult (pickedNumbers, 16, 1, 100, randomNumbers);
+    min = 1;
+    max = 100;
+    count = 16;
   break;
   case 1:
-    uniqueNumbersGen (randomNumbers, 16, 1, 80);
-    userNumbersAndResult (pickedNumbers, 16, 1, 80, randomNumbers);
+    min = 1;
+    max = 80;
+    count = 16;
   break;
   case 2:
-    uniqueNumbersGen (randomNumbers, 16, 1, 50);
-    userNumbersAndResult (pickedNumbers, 16, 1, 50, randomNumbers);
+    min = 1;
+    max = 50;
+    count = 16;
   break;
+}
+
+// Generatore numeri random univoci
+while (randomNumbers.length < count) {
+  var randomNumber = randomNumberGen(min, max);
+  if (!randomNumbers.includes(randomNumber)) {
+    randomNumbers.push(randomNumber);
+  }
+}
+
+// Scelta numeri utente
+while (winning(randomNumbers, numberPick, pickedNumbers) && pickedNumbers.length < max - count) {
+   numberPick = parseInt(prompt('Scegli un numero compreso tra ' + min + ' e ' + max));
+  if (numberPick < min || numberPick > max) {
+    alert('Il numero inserito non è valido');
+  } else if (isNaN(numberPick)) {
+    alert('Non hai inserito un numero');
+  } else if (pickedNumbers.includes(numberPick)) {
+    alert('Hai già inserito questo numero!');
+  } else {
+    pickedNumbers.push(numberPick);
+  }
 }
