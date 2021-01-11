@@ -42,6 +42,13 @@ var winResult = document.getElementById('win-result');
 
 // Selettore difficoltà
 var difficulty = parseInt(prompt('Seleziona un livello di difficoltà tra 0, 1 e 2'));
+if (isNaN(difficulty)) {
+  alert('Non hai inserito un numero');
+  location.reload();
+} else if (difficulty < 0 || difficulty > 2) {
+  alert('Non hai inserito un livello valido');
+  location.reload();
+}
 switch (difficulty) {
   case 0:
     uniqueNumbersGen (randomNumbers, 16, 1, 100);
