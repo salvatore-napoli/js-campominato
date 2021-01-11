@@ -7,8 +7,8 @@ function uniqueNumbersGen (arr, count, min, max) {
   }
 }
 
-function userNumbers (arr, count, min, max, arr2) {
-  while (arr.length < 10) {
+function userNumbersAndResult (arr, count, min, max, arr2) {
+  while (arr.length < max - count) {
     var numberPick = parseInt(prompt('Scegli un numero compreso tra ' + min + ' e ' + max));
     if (numberPick < min || numberPick > max) {
       alert('Il numero inserito non è valido');
@@ -19,16 +19,21 @@ function userNumbers (arr, count, min, max, arr2) {
     } else {
       arr.push(numberPick);
     }
-      if (arr2.indexOf(numberPick) > -1) {
-        alert('Ops! È esplosa una mina!');
-        gameResult.style.display = 'block';
-        break;
+    if (arr2.indexOf(numberPick) > -1) {
+      alert('Ops! È esplosa una mina!');
+      loseResult.style.display = 'block';
+      break;
+    } else if (arr.length === max - count) {
+      winResult.style.display = 'block';
     }
   }
+  alert('Il tuo punteggio è di ' + arr.length);
 }
+
 
 var randomNumbers = [];
 var pickedNumbers = [];
-var gameResult = document.getElementById('game-result');
+var loseResult = document.getElementById('lose-result');
+var winResult = document.getElementById('win-result');
 uniqueNumbersGen (randomNumbers, 16, 1, 100);
-userNumbers (pickedNumbers, 16, 1, 100, randomNumbers);
+userNumbersAndResult (pickedNumbers, 16, 1, 100, randomNumbers);
