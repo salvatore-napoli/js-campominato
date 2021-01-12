@@ -51,6 +51,8 @@ switch (difficulty) {
     max = 50;
     count = 16;
   break;
+  default:
+  max = 60;
 }
 
 // Generatore numeri random univoci
